@@ -3,7 +3,12 @@ import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
     name: '',
     number: '',
     filter: '',
@@ -24,6 +29,21 @@ export class App extends Component {
     });
     console.log(this.state.contacts);
     form.reset();
+  };
+
+  handleInputChange = e => {
+    this.setState({ filter: e.target.value });
+
+    const input = e.currentTarget;
+    const filter = input.value.toLowerCase().trim();
+
+    const filtetContacts = this.state.contacts.filter(item => {
+      return item.name.includes(filter.toLowerCase().trim());
+    });
+
+    console.log(filtetContacts);
+    console.log(this.state.contacts);
+    // this.setState({ contacts: filtetContacts });
   };
 
   render() {
@@ -54,8 +74,14 @@ export class App extends Component {
           <button type="submit">Add contact</button>
         </form>
         <h2>Your noted contacts</h2>
-        {/* <label htmlFor="contactFilter">Find contact by name</label>
-        <input id="contactFilter" name="filter" type="text" /> */}
+        <label htmlFor="contactFilter">Find contact by name</label>
+        <input
+          id="contactFilter"
+          name="filter"
+          type="text"
+          value={this.state.filter}
+          onChange={this.handleInputChange}
+        />
         <ul>
           {this.state.contacts.map(item => {
             return (
