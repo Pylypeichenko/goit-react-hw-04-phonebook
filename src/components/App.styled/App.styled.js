@@ -22,3 +22,8 @@ export const PageTitle = styled.h1`
 export const SectionTitle = styled.h2`
   margin-bottom: 25px;
 `;
+
+export const Notification = styled.p`
+  display: flex;
+  justify-content: center;
+`;

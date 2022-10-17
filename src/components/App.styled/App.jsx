@@ -5,7 +5,13 @@ import { Form } from '../Form/Form';
 import { Filter } from '../Filter/Filter';
 import { ContactList } from '../ContactList/ContactList';
 
-import { Container, Section, PageTitle, SectionTitle } from './App.styled';
+import {
+  Container,
+  Section,
+  PageTitle,
+  SectionTitle,
+  Notification,
+} from './App.styled';
 
 export class App extends Component {
   state = {
@@ -21,8 +27,7 @@ export class App extends Component {
   handleFormSubmit = contactData => {
     const contact = {
       id: nanoid(),
-      name: contactData.name,
-      number: contactData.number,
+      ...contactData,
     };
 
     const contactNames = this.state.contacts.map(item =>
@@ -62,17 +67,21 @@ export class App extends Component {
           <SectionTitle>Adding contact</SectionTitle>
           <Form onFormSubmit={this.handleFormSubmit} />
         </Section>
-        <Section>
-          <SectionTitle>Your noted contacts</SectionTitle>
-          <Filter
-            filter={this.state.filter}
-            onListFilter={this.handleFilterInputChange}
-          />
-          <ContactList
-            contacts={filterContacts}
-            onContactDelete={this.deleteContact}
-          />
-        </Section>
+        {this.state.contacts.length > 0 ? (
+          <Section>
+            <SectionTitle>Your noted contacts</SectionTitle>
+            <Filter
+              filter={this.state.filter}
+              onListFilter={this.handleFilterInputChange}
+            />
+            <ContactList
+              contacts={filterContacts}
+              onContactDelete={this.deleteContact}
+            />
+          </Section>
+        ) : (
+          <Notification>There are no contacts. Please add some.</Notification>
+        )}
       </Container>
     );
   }
